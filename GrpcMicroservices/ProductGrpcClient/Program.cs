@@ -11,8 +11,8 @@ namespace ProductGrpcClient
     {
         static async Task Main(string[] args)
         {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
             await Task.Delay(2000);
+            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
 
             var client = new ProductProtoService.ProductProtoServiceClient(channel);
 

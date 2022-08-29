@@ -71,6 +71,8 @@ namespace ProductGrpc.Services
 
             await _productsContext.SaveChangesAsync();
 
+            _logger.LogInformation("Product successfully added: {productId}_{productName}", product.ProductId, product.Name);
+
             request.Product.ProductId = product.ProductId;
 
             return request.Product;
@@ -133,7 +135,7 @@ namespace ProductGrpc.Services
             }
 
             var insertCount = await _productsContext.SaveChangesAsync();
-            
+
             return new InsertBulkProductResponse
             {
                 InsertCount = insertCount,
