@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DiscountGrpc.Protos;
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -14,14 +15,17 @@ namespace ShoppingCartGrpc.Services
     public class ShoppingCartService : ShoppingCartProtoService.ShoppingCartProtoServiceBase
     {
         private readonly ShoppingCartContext _shoppingCartContext;
+        private readonly DiscountService _discountService;
+
         private readonly ILogger<ShoppingCartService> _logger;
         private readonly IMapper _mapper;
 
-        public ShoppingCartService(ShoppingCartContext shoppingCartContext, ILogger<ShoppingCartService> logger, IMapper mapper)
+        public ShoppingCartService(ShoppingCartContext shoppingCartContext, ILogger<ShoppingCartService> logger, IMapper mapper, DiscountService discountService)
         {
             _shoppingCartContext = shoppingCartContext ?? throw new ArgumentNullException(nameof(shoppingCartContext));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _discountService = discountService ?? throw new ArgumentNullException(nameof(discountService));
         }
 
         public override async Task<ShoppingCartModel> GetShoppingCart(GetShoppingCartRequest request, ServerCallContext context)
@@ -120,8 +124,9 @@ namespace ShoppingCartGrpc.Services
                 {
                     //grpc call discount service -- check discount and calculate the item last price
 
-                    float discount = 100;
-                    newAddedCartItem.Price -= discount;
+                    var discount = await _discountService.GetDiscount(requestStream.Current.DiscountCode);
+
+                    newAddedCartItem.Price -= discount.Amount;
 
                     shoppingCart.Items.Add(newAddedCartItem);
                 }
