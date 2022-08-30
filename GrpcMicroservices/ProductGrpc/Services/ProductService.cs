@@ -4,7 +4,6 @@ using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ProductGrpc.Data;
-using ProductGrpc.Mapper;
 using ProductGrpc.Models;
 using ProductGrpc.Protos;
 using System;

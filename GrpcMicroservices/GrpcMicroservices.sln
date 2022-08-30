@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductGrpc", "ProductGrpc\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductGrpcClient", "ProductGrpcClient\ProductGrpcClient.csproj", "{69B58658-A3C4-4F20-B76B-088EF1AD39D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductWorkerService", "ProductWorkerService\ProductWorkerService.csproj", "{6C48002D-A4B7-4AC9-BB8A-97BA1FE6780F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductWorkerService", "ProductWorkerService\ProductWorkerService.csproj", "{6C48002D-A4B7-4AC9-BB8A-97BA1FE6780F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Product", "Product", "{0F278257-6420-45C4-9798-D34E91440F8F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ShoppingCart", "ShoppingCart", "{0388F32C-3A9C-405D-984F-7439FFF52DD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCartGrpc", "ShoppingCartGrpc\ShoppingCartGrpc.csproj", "{1842684B-954C-444A-9E3D-3BB78C501E56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCartGrpc", "ShoppingCartGrpc\ShoppingCartGrpc.csproj", "{1842684B-954C-444A-9E3D-3BB78C501E56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
