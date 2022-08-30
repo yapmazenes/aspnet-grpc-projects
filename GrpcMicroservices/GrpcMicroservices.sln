@@ -9,6 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductGrpcClient", "Produc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductWorkerService", "ProductWorkerService\ProductWorkerService.csproj", "{6C48002D-A4B7-4AC9-BB8A-97BA1FE6780F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Product", "Product", "{0F278257-6420-45C4-9798-D34E91440F8F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ShoppingCart", "ShoppingCart", "{0388F32C-3A9C-405D-984F-7439FFF52DD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCartGrpc", "ShoppingCartGrpc\ShoppingCartGrpc.csproj", "{1842684B-954C-444A-9E3D-3BB78C501E56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +33,19 @@ Global
 		{6C48002D-A4B7-4AC9-BB8A-97BA1FE6780F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C48002D-A4B7-4AC9-BB8A-97BA1FE6780F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C48002D-A4B7-4AC9-BB8A-97BA1FE6780F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1842684B-954C-444A-9E3D-3BB78C501E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1842684B-954C-444A-9E3D-3BB78C501E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1842684B-954C-444A-9E3D-3BB78C501E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1842684B-954C-444A-9E3D-3BB78C501E56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2688F300-1CAB-4653-924E-775A721078D7} = {0F278257-6420-45C4-9798-D34E91440F8F}
+		{69B58658-A3C4-4F20-B76B-088EF1AD39D4} = {0F278257-6420-45C4-9798-D34E91440F8F}
+		{6C48002D-A4B7-4AC9-BB8A-97BA1FE6780F} = {0F278257-6420-45C4-9798-D34E91440F8F}
+		{1842684B-954C-444A-9E3D-3BB78C501E56} = {0388F32C-3A9C-405D-984F-7439FFF52DD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A2897CE-EF9B-4B36-89AB-8AADC6209095}
