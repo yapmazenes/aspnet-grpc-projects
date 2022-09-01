@@ -1,11 +1,13 @@
 using Grpc.Core;
 using Grpc.Net.Client;
+using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ProductGrpc.Protos;
 using ShoppingCartGrpc.Protos;
 using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,6 +32,7 @@ namespace ShoppingCartWorkerService
             {
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
+                //0 Get Token from IS4
                 //1 Create SC if not exist
                 //2 Retrieve products from product grpc with server stream
                 //3 Add SC items into SC with client stream
@@ -37,8 +40,11 @@ namespace ShoppingCartWorkerService
                 using var scChannel = GrpcChannel.ForAddress(_configuration.GetValue<string>("WorkerService:ShoppingCartServerUrl"));
                 var scClient = new ShoppingCartProtoService.ShoppingCartProtoServiceClient(scChannel);
 
+                //0 Get Token from IS4
+                var token = await GetTokenFromIS4();
+
                 //1 Create SC if not exist
-                var scModel = await GetOrCreateShoppingCartAsync(scClient);
+                var scModel = await GetOrCreateShoppingCartAsync(scClient, token);
 
                 //open SC client stream
                 using var scClientStream = scClient.AddItemIntoShoppingCart();
@@ -85,8 +91,36 @@ namespace ShoppingCartWorkerService
             }
         }
 
+        private async Task<string> GetTokenFromIS4()
+        {
+            //discover endpoints from metada
+            var client = new HttpClient();
+            var discover = await client.GetDiscoveryDocumentAsync(_configuration.GetValue<string>("WorkerService:IdentityServerUrl"));
+            if (discover.IsError)
+            {
+                Console.WriteLine(discover.Error);
+                return string.Empty;
+            }
+
+            //request token
+            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = discover.TokenEndpoint,
+                ClientId = "ShoppingCartClient",
+                ClientSecret = "secret",
+                Scope = "ShoppingCartAPI"
+            });
+            if (tokenResponse.IsError)
+            {
+                Console.WriteLine(tokenResponse.Error);
+                return string.Empty;
+            }
+
+            return tokenResponse.AccessToken;
+        }
+
         private async Task<ShoppingCartModel> GetOrCreateShoppingCartAsync(
-            ShoppingCartProtoService.ShoppingCartProtoServiceClient scClient)
+            ShoppingCartProtoService.ShoppingCartProtoServiceClient scClient, string token)
         {
             //try to get SC 
             //create SC
@@ -97,10 +131,13 @@ namespace ShoppingCartWorkerService
             {
                 _logger.LogInformation("GetShoppingCartAsync started...");
 
+                var headers = new Metadata();
+                headers.Add("Authorization", $"Bearer {token}");
+
                 shoppingCartModel = await scClient.GetShoppingCartAsync(new GetShoppingCartRequest
                 {
                     Username = _configuration.GetValue<string>("WorkerService:UserName")
-                });
+                }, headers);
 
                 _logger.LogInformation("GetShoppingCartAsync Response: {shoppingCartModel}", shoppingCartModel);
             }
